@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		3A2B00EE151B09C400C6308E /* WSFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A2B00EC151B09C400C6308E /* WSFrame.h */; };
 		3A2B00EF151B09C400C6308E /* WSFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B00ED151B09C400C6308E /* WSFrame.m */; };
-		3A2B00F1151B0A0000C6308E /* WSWebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 3ABBCD9F14E1B4A300B24E95 /* WSWebSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A2B00F1151B0A0000C6308E /* WSWebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 3ABBCD9F14E1B4A300B24E95 /* WSWebSocket.h */; settings = {ATTRIBUTES = (); }; };
 		3A6C6F80151BA21000848854 /* WSMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A6C6F7E151BA21000848854 /* WSMessage.h */; };
 		3A6C6F81151BA21000848854 /* WSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A6C6F7F151BA21000848854 /* WSMessage.m */; };
 		3A6C6F85151BACF600848854 /* WSMessageProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A6C6F83151BACF500848854 /* WSMessageProcessor.h */; };
