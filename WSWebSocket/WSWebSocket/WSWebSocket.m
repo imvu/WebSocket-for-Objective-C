@@ -173,7 +173,7 @@ typedef enum {
     NSData *data = [aString dataUsingEncoding:NSUTF8StringEncoding];
     
     unsigned char digest[CC_SHA1_DIGEST_LENGTH];
-    CC_SHA1(data.bytes, data.length, digest);
+    CC_SHA1(data.bytes, (CC_LONG)data.length, digest);
     
     return [NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH];
 }
@@ -197,7 +197,7 @@ typedef enum {
     CFWriteStreamRef writeStream;
     NSUInteger port = (hostURL.port) ? hostURL.port.integerValue : ([hostURL.scheme.lowercaseString isEqualToString:WSScheme.lowercaseString]) ? WSPort : WSPortSecure;
     
-    CFStreamCreatePairWithSocketToHost(NULL, (__bridge CFStringRef)hostURL.host, port, &readStream, &writeStream);
+    CFStreamCreatePairWithSocketToHost(NULL, (__bridge CFStringRef)hostURL.host, (UInt32)port, &readStream, &writeStream);
 
     inputStream = (__bridge_transfer NSInputStream *)readStream;
     outputStream = (__bridge_transfer NSOutputStream *)writeStream;
@@ -228,7 +228,9 @@ typedef enum {
 
     if (closeCallback) {
         dispatch_async(callbackQueue, ^{
-            closeCallback(statusCode, closingReason);
+            if (closeCallback) {
+                closeCallback(statusCode, closingReason);
+            }
         });
     }
 }
@@ -521,7 +523,7 @@ typedef enum {
 - (BOOL)isValidHandshake:(CFHTTPMessageRef)response {
     BOOL isValid = YES;
     
-    uint32_t responseStatusCode = CFHTTPMessageGetResponseStatusCode(response);
+    CFIndex responseStatusCode = CFHTTPMessageGetResponseStatusCode(response);
     
     if (responseStatusCode != WSHTTPCode101) {
         isValid = NO;
@@ -573,7 +575,7 @@ typedef enum {
 
     if (responseCallback) {
 
-        uint32_t responseStatusCode = CFHTTPMessageGetResponseStatusCode(response);
+        CFIndex responseStatusCode = CFHTTPMessageGetResponseStatusCode(response);
         NSDictionary *headerFields = (__bridge_transfer NSDictionary *)CFHTTPMessageCopyAllHeaderFields(response);
         NSHTTPURLResponse *HTTPURLResponse = [[NSHTTPURLResponse alloc] initWithURL:hostURL statusCode:responseStatusCode HTTPVersion:(__bridge NSString *)kWSHTTP11 headerFields:headerFields];
         NSData *data = (__bridge_transfer NSData *)CFHTTPMessageCopyBody(response);

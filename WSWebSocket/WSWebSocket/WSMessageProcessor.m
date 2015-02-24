@@ -295,8 +295,8 @@
     // Prioritize ping/pong frames
     if (frame.opcode == WSWebSocketOpcodePing || frame.opcode == WSWebSocketOpcodePong) {
         
-        int index = 0;
-        for (int i = framesToSend.count - 1; i >= 0; i--) {
+        NSInteger index = 0;
+        for (NSInteger i = framesToSend.count - 1; i >= 0; i--) {
             WSFrame *aFrame = [framesToSend objectAtIndex:i];
             if (aFrame.opcode == frame.opcode) {
                 index = i + 1;
