@@ -408,7 +408,7 @@ typedef enum {
     
     uint8_t *dataBytes = (uint8_t *)[dataToSend bytes];
     dataBytes += bytesSent;
-    uint64_t length = dataToSend.length - bytesSent;
+    NSUInteger length = dataToSend.length - bytesSent;
     
     hasSpaceAvailable = NO;
     length = [outputStream write:dataBytes maxLength:length];

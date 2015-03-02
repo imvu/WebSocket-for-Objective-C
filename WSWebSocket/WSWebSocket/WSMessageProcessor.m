@@ -90,7 +90,7 @@
     dataBytes += bytesConstructed;
     
     NSUInteger frameSize = 2;
-    uint64_t payloadLength = 0;
+    NSUInteger payloadLength = 0;
 
     // Frame is not received fully
     if (frameSize > data.length - bytesConstructed) {
@@ -149,7 +149,9 @@
         }
 
         uint64_t *payloadLength64 = (uint64_t *)(dataBytes + 2);
-        payloadLength = CFSwapInt64BigToHost(*payloadLength64);
+        uint64_t payloadLength64NativeEndian = CFSwapInt64BigToHost(*payloadLength64);
+        NSNumber *boxedPayloadLength = @(payloadLength64NativeEndian);
+        payloadLength = [boxedPayloadLength unsignedIntegerValue];
     }
     
     // Frame is not received fully

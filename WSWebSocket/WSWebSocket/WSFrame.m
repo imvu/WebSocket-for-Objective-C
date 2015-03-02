@@ -53,7 +53,7 @@ static const NSUInteger WSMaskSize = 4;
     // Default size: sizeof(opcode) + sizeof(maskBitAndPayloadLength) + sizeof(mask)
     NSUInteger sizeWithoutPayload = 6;
     
-    uint64_t totalLength = MIN((payloadData.length + sizeWithoutPayload), maxSize);
+    NSUInteger totalLength = MIN((payloadData.length + sizeWithoutPayload), maxSize);
     
     // Calculate and set the frame size and payload length
     if (totalLength - sizeWithoutPayload < 126) {
