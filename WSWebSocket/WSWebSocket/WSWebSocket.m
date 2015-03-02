@@ -131,13 +131,7 @@ typedef enum {
     return self;
 }
 
-- (void)dealloc {
-    dispatch_release(callbackQueue);
-}
-
-
 #pragma mark - Callbacks
-
 
 - (void)setDataCallback:(void (^)(NSData *data))aDataCallback {
     dataCallback = aDataCallback;
