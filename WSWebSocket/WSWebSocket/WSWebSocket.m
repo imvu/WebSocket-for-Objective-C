@@ -27,7 +27,6 @@
 #import <CommonCrypto/CommonDigest.h>
 #import <Security/Security.h>
 
-#import "NSString+Base64.h"
 #import "WSFrame.h"
 #import "WSMessage.h"
 #import "WSMessageProcessor.h"
@@ -181,11 +180,13 @@ typedef enum {
 - (NSString *)nonce {
     uint8_t nonce[WSNonceSize];
     SecRandomCopyBytes(kSecRandomDefault, WSNonceSize, nonce);
-    return [NSString encodeBase64WithData:[NSData dataWithBytes:nonce length:WSNonceSize]];
+    NSData *nonceData = [NSData dataWithBytes:nonce length:WSNonceSize];
+    return [nonceData base64EncodedStringWithOptions:0];
 }
 
 - (NSString *)acceptKeyFromNonce:(NSString *)nonce {
-    return [NSString encodeBase64WithData:[self SHA1DigestOfString:[nonce stringByAppendingString:WSAcceptGUID]]];    
+    NSData *nonceBase64Data = [self SHA1DigestOfString:[nonce stringByAppendingString:WSAcceptGUID]];
+    return [nonceBase64Data base64EncodedStringWithOptions:0];
 }
 
 
