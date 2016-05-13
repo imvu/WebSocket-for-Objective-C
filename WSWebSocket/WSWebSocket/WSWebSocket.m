@@ -46,14 +46,14 @@ static CFStringRef const kWSConnectionValue = CFSTR("Upgrade");
 static CFStringRef const kWSGet = CFSTR("GET");
 static CFStringRef const kWSHost = CFSTR("Host");
 static CFStringRef const kWSHTTP11 = CFSTR("HTTP/1.1");
-static CFStringRef const kWSOrigin = CFSTR("Origin");
+//static CFStringRef const kWSOrigin = CFSTR("Origin");
 static CFStringRef const kWSUpgrade = CFSTR("Upgrade");
 static CFStringRef const kWSUpgradeValue = CFSTR("websocket");
 static CFStringRef const kWSVersion = CFSTR("13");
 static CFStringRef const kWSContentLength = CFSTR("Content-Length");
 
 static CFStringRef const kWSSecWebSocketAccept = CFSTR("Sec-WebSocket-Accept");
-static CFStringRef const kWSSecWebSocketExtensions = CFSTR("Sec-WebSocket-Extensions");
+//static CFStringRef const kWSSecWebSocketExtensions = CFSTR("Sec-WebSocket-Extensions");
 static CFStringRef const kWSSecWebSocketKey = CFSTR("Sec-WebSocket-Key");
 static CFStringRef const kWSSecWebSocketProtocol = CFSTR("Sec-WebSocket-Protocol");
 static CFStringRef const kWSSecWebSocketVersion = CFSTR("Sec-WebSocket-Version");
@@ -129,6 +129,11 @@ typedef enum {
         callbackQueue = dispatch_queue_create("WebSocket callback queue", DISPATCH_QUEUE_SERIAL);
     }
     return self;
+}
+
+- (void)dealloc {
+    inputStream.delegate = nil;
+    outputStream.delegate = nil;
 }
 
 #pragma mark - Callbacks
@@ -258,7 +263,9 @@ typedef enum {
     // Pong frame
     if (message.opcode == WSWebSocketOpcodePong && pongCallback) {
         dispatch_async(callbackQueue, ^{
-            pongCallback();
+            if (pongCallback) {
+                pongCallback();
+            }
         });
     }
     
@@ -267,7 +274,9 @@ typedef enum {
         
         // Execute the callback block with the constructed message.
         dispatch_async(callbackQueue, ^{
-            textCallback(message.text);
+            if (textCallback) {
+                textCallback(message.text);
+            }
         });
     }
     
@@ -276,7 +285,9 @@ typedef enum {
 
         // Execute the callback block with the constructed message.
         dispatch_async(callbackQueue, ^{
-            dataCallback(message.data);
+            if (dataCallback) {
+                dataCallback(message.data);
+            }
         });
     }
 
@@ -448,7 +459,7 @@ typedef enum {
             [self closeConnection];
             break;
         default:
-            NSLog(@"Unknown event");
+            NSAssert(NO, @"Unknown event");
             break;
     }
 }
@@ -468,7 +479,7 @@ typedef enum {
         
         // Copy header fields from request
         for (NSString *headerField in request.allHTTPHeaderFields) {
-            CFHTTPMessageSetHeaderFieldValue(message, (__bridge CFStringRef)headerField, (__bridge CFStringRef)[request.allHTTPHeaderFields objectForKey:headerField]);
+            CFHTTPMessageSetHeaderFieldValue(message, (__bridge CFStringRef)headerField, (__bridge CFStringRef)request.allHTTPHeaderFields[headerField]);
         }
         
         // Copy body

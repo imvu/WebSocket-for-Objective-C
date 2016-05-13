@@ -259,7 +259,7 @@
 
 - (void)scheduleNextMessage {
     if (!messageProcessed && messagesToSend.count) {
-        messageProcessed = [messagesToSend objectAtIndex:0];
+        messageProcessed = [messagesToSend firstObject];
         [messagesToSend removeObjectAtIndex:0];
     }
 }
@@ -299,7 +299,7 @@
         
         NSInteger index = 0;
         for (NSInteger i = framesToSend.count - 1; i >= 0; i--) {
-            WSFrame *aFrame = [framesToSend objectAtIndex:i];
+            WSFrame *aFrame = framesToSend[i];
             if (aFrame.opcode == frame.opcode) {
                 index = i + 1;
                 break;
@@ -314,7 +314,7 @@
 
 - (WSFrame *)nextFrame {
     if (framesToSend.count) {
-        WSFrame *nextFrame = [framesToSend objectAtIndex:0];
+        WSFrame *nextFrame = [framesToSend firstObject];
         [framesToSend removeObjectAtIndex:0];
         return nextFrame;
     }
