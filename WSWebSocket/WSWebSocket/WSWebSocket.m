@@ -586,7 +586,9 @@ typedef enum {
         NSData *data = (__bridge_transfer NSData *)CFHTTPMessageCopyBody(response);
 
         dispatch_async(callbackQueue, ^{
-            responseCallback(HTTPURLResponse, data);
+            if (responseCallback) {
+                responseCallback(HTTPURLResponse, data);
+            }
         });
     }
     else if (state == WSWebSocketStateConnecting) {
