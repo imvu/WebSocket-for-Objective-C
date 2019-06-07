@@ -144,7 +144,7 @@
 			};
 			buildConfigurationList = 3ABBCD9114E1B4A300B24E95 /* Build configuration list for PBXProject "WSWebSocket" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
